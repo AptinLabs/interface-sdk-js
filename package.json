@@ -1,6 +1,6 @@
 {
   "name": "@aptin/interface-sdk-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Aptin Finance's lending function in js",
   "author": {
     "name": "superbunny-7"
@@ -25,7 +25,8 @@
   },
   "keywords": [
     "Lending",
-    "Borrow"
+    "Borrow",
+    "defi"
   ],
   "license": "MIT",
   "devDependencies": {
