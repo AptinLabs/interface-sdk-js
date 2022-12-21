@@ -32,7 +32,7 @@ const assets = await lend.getAssets();
 ```
 
 
-### Submit and sign transaction
+## Submit and sign transaction
 
 **Supply Transaction**
 ```typescript
