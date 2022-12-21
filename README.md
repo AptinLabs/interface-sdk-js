@@ -68,7 +68,6 @@ const repayPayload =await lend.repay("0x1::aptos_coin::AptosCoin",1.5)
 | name                    | symbol |                                      address                                      |
 | ----------------------- | ------ | --------------------------------------------------------------------------------- |
 | APTOS                   | APT    | `0x1::aptos_coin::AptosCoin`                                                      |
-| Wrapped BTC(Wormhole)   | WBTC   | `0xae478ff7d83ed072dbc5e264250e67ef58f57c99d89b447efd8a0a2e8b2be76e::coin::T`     |
 | Wrapped Ether(Wormhole) | WETH   | `0xcc8a89c8dce9693d354449f1f73e60e14e347417854f029db5bc8e7454008abb::coin::T`     |
 | USD Coin(Wormhole)      | USDC   | `0x5e156f1207d0ebfa19a9eeff00d62a282278fb8719f4fab3a586a0a2c0fffbea::coin::T`     |
 | Wrapped Ether(LayerZero)| zWETH  | `0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::WETH` |
