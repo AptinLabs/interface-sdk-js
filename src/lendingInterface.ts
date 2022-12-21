@@ -42,7 +42,9 @@ export class LendingService {
     private endpoint: string;
     private account: string;
     private protocolAddress = "0xb7d960e5f0a58cc0817774e611d7e3ae54c6843816521f02d7ced583d6434896";
-    
+    private poolAddress = "0xabaf41ed192141b481434b99227f2b28c313681bc76714dc88e5b2e26b24b84c";
+    private coins: string[] | undefined;
+
     /**
      * Constructs a new Connection.
      *
@@ -72,31 +74,44 @@ export class LendingService {
         const response = await this.post(`${this.endpoint}/v1/tables/${table}/item`, data)
         return response
     }
- 
+
+    protected async getCoins(): Promise<string[]> { 
+        if (!this.coins || this.coins.length == 0) {
+            const lendPool = await this.getResource(this.poolAddress, this.protocolAddress + "::pool::LendProtocol")
+            this.coins = lendPool.coins
+        }
+        return this.coins as string[]
+    }
+
     protected async getSingleBalance(coinAddress: string, table: string, params: any) {
         const coinInfo = await this.getResource(coinAddress.split("::")[0], `0x1::coin::CoinInfo<${coinAddress}>`)
         const tableData = await this.getTableData({ table, data: { ...params, key: coinAddress } })
         const singleBalance = { name: coinInfo.name, decimals: coinInfo.decimals, symbol: coinInfo.symbol, ...tableData }
         return singleBalance
     }
- 
+
     protected async getPayload(lendingType: LendingType, coinAddress: string, amount: number): Promise<TransactionPayload> {
-        const payload = {
-            function: this.protocolAddress + "::lend::" + lendingType.toString(),
-            type_arguments: [coinAddress],
-        };
+        const coinArray = await this.getCoins();
+        if (coinArray.indexOf(coinAddress) > -1) {
+            const payload = {
+                function: this.protocolAddress + "::lend::" + lendingType.toString(),
+                type_arguments: [coinAddress],
+            };
 
-        const coinInfo = await this.getResource(coinAddress.split("::")[0], `0x1::coin::CoinInfo<${coinAddress}>`)
-        const amount_Wei = new BigNumber(amount).shiftedBy(coinInfo.decimals).integerValue(BigNumber.ROUND_DOWN).toNumber();
+            const coinInfo = await this.getResource(coinAddress.split("::")[0], `0x1::coin::CoinInfo<${coinAddress}>`)
+            const amount_Wei = new BigNumber(amount).shiftedBy(coinInfo.decimals).integerValue(BigNumber.ROUND_DOWN).toNumber();
 
-        if (lendingType == LendingType.Supply)
-            return { ...payload, arguments: [amount_Wei, true] }
-        else if (lendingType == LendingType.Withdraw)
-            return { ...payload, arguments: [amount_Wei, this.account] }
-        else if (lendingType == LendingType.Borrow)
-            return { ...payload, arguments: [amount_Wei] }
-        else
-            return { ...payload, arguments: [amount_Wei] }
+            if (lendingType == LendingType.Supply)
+                return { ...payload, arguments: [amount_Wei, true] }
+            else if (lendingType == LendingType.Withdraw)
+                return { ...payload, arguments: [amount_Wei, this.account] }
+            else if (lendingType == LendingType.Borrow)
+                return { ...payload, arguments: [amount_Wei] }
+            else
+                return { ...payload, arguments: [amount_Wei] }
+        } else {
+            throw new Error("this token is not supported")
+        }
 
     }
 
