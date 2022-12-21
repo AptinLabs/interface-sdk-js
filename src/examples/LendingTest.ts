@@ -1,12 +1,5 @@
-import { LendingService, WalletType, LendingType } from "../index";
-
-
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-
-
+import { LendingService } from "../index";
+ 
 async function run() {
 
   console.log('start------------')
@@ -15,16 +8,23 @@ async function run() {
   console.log("-----------------------------------------")
   const assets = await lend.getAssets(); 
   console.log(assets)
+ 
 
   console.log("-----------------------------------------")
-  const payload = await lend.getPayload(LendingType.Withdraw, "0x1::aptos_coin::AptosCoin", 1.5);
-  console.log(payload)
-
-  console.log("-----------------------------------------")
-  const supply =await lend.supply(WalletType.Martian,"0x1::aptos_coin::AptosCoin",1.5); 
+  const supply =await lend.supply("0x1::aptos_coin::AptosCoin",1.5); 
   console.log(supply)
 
+  console.log("-----------------------------------------")
+  const withdraw =await lend.withdraw("0x1::aptos_coin::AptosCoin",1.5); 
+  console.log(withdraw)
 
+  console.log("-----------------------------------------")
+  const borrow =await lend.borrow("0x1::aptos_coin::AptosCoin",1.5); 
+  console.log(borrow)
+
+  console.log("-----------------------------------------")
+  const repay =await lend.repay("0x1::aptos_coin::AptosCoin",1.5); 
+  console.log(repay)
 }
 
 run();
