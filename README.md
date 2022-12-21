@@ -14,7 +14,7 @@ npm i @aptin/interface-sdk-js
 yarn add @aptin/interface-sdk-js
 ```
 
-# Quickstart
+## Quickstart
 
  Here is a demo of the most important interface services
 
@@ -32,7 +32,7 @@ const assets = await lend.getAssets();
 ```
 
 
-## Submit and sign transaction
+### Submit and sign transaction
 
 **Supply Transaction**
 ```typescript
