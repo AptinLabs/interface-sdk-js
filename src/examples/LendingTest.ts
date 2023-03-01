@@ -8,7 +8,9 @@ async function run() {
   console.log("-----------------------------------------")
   const assets = await lend.getAssets(); 
   console.log(assets)
- 
+
+   const pools = await lend.getPoolInfos(); 
+   console.log(pools)
 
   console.log("-----------------------------------------")
   const supply =await lend.supply("0x1::aptos_coin::AptosCoin",1.5); 

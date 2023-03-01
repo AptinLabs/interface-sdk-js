@@ -29,6 +29,11 @@ const lend = new LendingService("0x3d231debf7a43e1334228c30955828226f91570f799a4
 //Get the current user's lending data
 //Return user supply and borrow data
 const assets = await lend.getAssets(); 
+
+//Get information on all loan pools
+//Return pool supply and lending data, e.g. total apy
+const poolInfos = await lend.getPoolInfos();
+
 ```
 
 
