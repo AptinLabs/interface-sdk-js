@@ -165,7 +165,7 @@ export class LendingService {
     * @returns  pools supply and borrow data
     */
     async getPoolInfos(): Promise<any> {
-        let balances: {
+        const balances: {
             name: string;
             symbol: string; decimals: number;
             address: string;
@@ -178,7 +178,7 @@ export class LendingService {
             const lendPool = await this.getResource(this.poolAddress, this.protocolAddress + "::pool::LendProtocol")
             const coins = lendPool.coins
             const table = lendPool.pools.handle 
-            
+
             const params = {
                 key_type: '0x1::string::String',
                 value_type: `${this.protocolAddress}::pool::Pool`,
@@ -206,7 +206,7 @@ export class LendingService {
                 }
 
                 const dayAPR = new BigNumber(_borrowRateAPR).div(365).plus(1).toNumber()
-                let _borrowAPY = Math.pow(dayAPR, 365) - 1
+                const _borrowAPY = Math.pow(dayAPR, 365) - 1
 
                 const model = {
                     name: coinInfos[i].name,
